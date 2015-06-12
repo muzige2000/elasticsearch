@@ -4,7 +4,7 @@ ENV ES_PKG_NAME elasticsearch-1.6.0
 
 RUN \
   apt-get update &&\
-  apt-get install -y automake perl
+  apt-get install -y automake perl build-essential
 
 # Install Elasticsearch.
 RUN \
