@@ -1,4 +1,4 @@
-FROM dockerfile/java:oracle-java8
+FROM java:8u45
 
 ENV ES_PKG_NAME elasticsearch-1.6.0
 
