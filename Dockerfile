@@ -62,9 +62,9 @@ RUN \
 
 RUN \
   cd /opt &&\
-  wget https://bitbucket.org/eunjeon/mecab-ko-dic/downloads/mecab-ko-dic-1.6.1-20140814.tar.gz &&\
-  tar xvf mecab-ko-dic-1.6.1-20140814.tar.gz &&\
-  cd /opt/mecab-ko-dic-1.6.1-20140814 &&\
+  wget https://bitbucket.org/eunjeon/mecab-ko-dic/downloads/mecab-ko-dic-2.0.1-20150920.tar.gz&&\
+  tar xvf mecab-ko-dic-2.0.1-20150920.tar.gz &&\
+  cd /opt/mecab-ko-dic-2.0.1-20150920 &&\
   ./autogen.sh &&\
   ./configure &&\
   make &&\
@@ -82,12 +82,10 @@ RUN \
   cp libMeCab.so /usr/local/lib
 
 RUN /usr/share/elasticsearch/bin/plugin install http://bitbucket.org/muzige2000/mecab-ko-lucene-analyzer/downloads/elasticsearch-analysis-mecab-ko-2.3.2.0.zip
-#RUN sed -i 's/#ES_JAVA_OPTS=/ES_JAVA_OPTS="-Des.security.manager.enabled=false"/g' /etc/init.d/elasticsearch
-#RUN sed -i '/JAVA_HOME/i\export LD_LIBRARY_PATH=/usr/local/lib' /etc/init.d/elasticsearch
 
 
 ENV PATH /usr/share/elasticsearch/bin:$PATH
-
+ENV LD_LIBRARY_PATH /usr/local/lib
 
 WORKDIR /usr/share/elasticsearch
 
@@ -107,7 +105,7 @@ COPY config ./config
 VOLUME /usr/share/elasticsearch/data
 
 COPY docker-entrypoint.sh /
-
+RUN ["ls", "-al", "/usr/local/lib"]
 EXPOSE 9200 9300
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["elasticsearch", "-Djava.library.path=/usr/local/lib", "-Des.security.manager.enabled=false"]
+CMD ["elasticsearch", "-Djava.library.path=/usr/local/lib", "-Des.security.manager.enabled=false", "-Des.insecure.allow.root=true"]
