@@ -1,5 +1,1 @@
-path:
-  data: /data/data
-  logs: /data/log
-  plugins: /opt/elasticsearch/plugins
-  work: /data/work
+network.host: 0.0.0.0
